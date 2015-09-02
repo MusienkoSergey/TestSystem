@@ -69,12 +69,12 @@
                             itemClick="handleAnswer(event);"/>
     </fx:Declarations>
 
-    <s:Button x="200" y="200" label="start test" click="start()"/>
-    <s:VGroup id="myGroupQuestion" x="200" y="230">
-        <s:Label text="Question" x="200" y="230"/>
-        <s:Label text="{question}" x="200" y="250"/>
-    </s:VGroup>
-    <s:VGroup id="myGroupAnswer" x="200" y="275"/>
-
-    <s:Label id="resultQ" x="200" y="230"/>
+    <s:Panel title="Test" height="50%" width="50%" top="12" bottom="12" left="12" right="12">
+		<s:Label top="12"  left="15" text="Hello, if you are ready to begin test, press button ' Start test '"/>
+		<s:Button top="45" left="150" label="Start test" click="start()"/>
+		<s:VGroup id="myGroupQuestion" top="85"  left="15">
+			<s:Label text="{question}"/>
+		</s:VGroup>
+		<s:VGroup id="myGroupAnswer" top="110"  left="15"/>
+	</s:Panel>
 </s:Application>
