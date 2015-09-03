@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+               creationComplete="initApp();">
+	
     <fx:Declarations>
         <s:RemoteObject id="QuestionService" destination="QuestionService">
             <s:method name="startTest" result="ResultdoQuestion(event)"/>
             <s:method name="getNextQuestion" result="ResultdoNextQuestion(event)"/>
             <s:method name="getResult" result="ResultDoResult(event)"/>
         </s:RemoteObject>
+        <s:RadioButtonGroup id="rAnswer"/>
     </fx:Declarations>
 
     <fx:Script>
-		<![CDATA[
+	<![CDATA[
         import mx.events.ItemClickEvent;
         import mx.rpc.events.ResultEvent;
         import mx.controls.Alert;
@@ -22,6 +24,11 @@
         public var question:String;
 
         public var obj:Object = {};
+        
+        private function initApp():void {
+		startButton.addEventListener(MouseEvent.CLICK, start);
+		rAnswer.addEventListener(ItemClickEvent.ITEM_CLICK, handleAnswer);
+	}
 
         private function handleAnswer(event:ItemClickEvent):void {
             QuestionService.getNextQuestion(event.currentTarget.selectedValue);
@@ -61,19 +68,14 @@
             Alert.show(event.result.toString());
         }
         ]]>
-	</fx:Script>
-
-    <fx:Declarations>
-        <s:RadioButtonGroup id="rAnswer"
-                            itemClick="handleAnswer(event);"/>
-    </fx:Declarations>
+    </fx:Script>
 
     <s:Panel title="Test" height="50%" width="50%" top="12" bottom="12" left="12" right="12">
-		<s:Label top="12"  left="15" text="Hello, if you are ready to begin test, press button ' Start test '"/>
-		<s:Button top="45" left="150" label="Start test" click="start()"/>
-		<s:VGroup id="myGroupQuestion" top="85"  left="15">
-			<s:Label text="{question}"/>
-		</s:VGroup>
-		<s:VGroup id="myGroupAnswer" top="110"  left="15"/>
-	</s:Panel>
+	<s:Label top="12"  left="15" text="Hello, if you are ready to begin test, press button ' Start test '"/>
+	<s:Button top="45" left="150" label="Start test"/>
+	<s:VGroup id="myGroupQuestion" top="85"  left="15">
+		<s:Label text="{question}"/>
+	</s:VGroup>
+	<s:VGroup id="myGroupAnswer" top="110"  left="15"/>
+    </s:Panel>
 </s:Application>
