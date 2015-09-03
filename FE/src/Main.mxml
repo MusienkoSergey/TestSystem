@@ -28,7 +28,6 @@
         }
 
         public function start():void {
-            resultQ.text = "";
             QuestionService.startTest();
         }
 
