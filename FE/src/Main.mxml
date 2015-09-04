@@ -2,7 +2,9 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                creationComplete="initApp();">
-	
+
+    <fx:Script source="scripts/Test.as"/>
+
     <fx:Declarations>
         <s:RemoteObject id="QuestionService" destination="QuestionService">
             <s:method name="startTest" result="ResultdoQuestion(event)"/>
@@ -11,64 +13,6 @@
         </s:RemoteObject>
         <s:RadioButtonGroup id="rAnswer"/>
     </fx:Declarations>
-
-    <fx:Script>
-	<![CDATA[
-        import mx.events.ItemClickEvent;
-        import mx.rpc.events.ResultEvent;
-        import mx.controls.Alert;
-
-        import spark.components.RadioButton;
-
-        [Bindable]
-        public var question:String;
-
-        public var obj:Object = {};
-        
-        private function initApp():void {
-		startButton.addEventListener(MouseEvent.CLICK, start);
-		rAnswer.addEventListener(ItemClickEvent.ITEM_CLICK, handleAnswer);
-	}
-
-        private function handleAnswer(event:ItemClickEvent):void {
-            QuestionService.getNextQuestion(event.currentTarget.selectedValue);
-        }
-
-        public function start():void {
-            QuestionService.startTest();
-        }
-
-        public function ResultdoQuestion(event:ResultEvent):void {
-            rebuildQuestion(event.result);
-            myGroupQuestion.visible = true;
-        }
-
-        public function rebuildQuestion(obj:Object):void {
-            if (obj == null) {
-                myGroupQuestion.visible = false;
-                QuestionService.getResult();
-            }
-            myGroupAnswer.removeAllElements();
-            question = obj.question;
-            obj = obj.answers;
-            for each (var p:Object in obj) {
-                var myButton:RadioButton = new RadioButton();
-                myButton.label = p.answer.toString();
-                myButton.value = p.answerId;
-                myButton.groupName = "rAnswer";
-                myGroupAnswer.addElement(myButton);
-            }
-        }
-
-        public function ResultdoNextQuestion(event:ResultEvent):void {
-            rebuildQuestion(event.result);
-        }
-
-        public function ResultDoResult(event:ResultEvent):void {
-            Alert.show(event.result.toString());
-        }
-        ]]>
-    </fx:Script>
 
     <s:Panel title="Test" height="50%" width="50%" top="12" bottom="12" left="12" right="12">
 	<s:Label top="12"  left="15" text="Hello, if you are ready to begin test, press button ' Start test '"/>
